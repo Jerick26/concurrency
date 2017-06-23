@@ -3,7 +3,6 @@
 #include <type_traits>
 #include <future>
 #include <thread>
-#include "function_wrapper.h"
 
 class thread_pool {
   std::atomic_bool done;
@@ -21,7 +20,6 @@ class thread_pool {
       }
     }
   }
-
 public:
   thread_pool() :
       done(false), joiner(threads) {
@@ -35,11 +33,11 @@ public:
       throw;
     }
   }
-  
+
   ~thread_pool() {
     done = true;
   }
-  
+
   template<typename FunctionType>
   std::future<typename std::result_of<FunctionType()>::type>
   submit(FunctionType f) {
@@ -48,5 +46,14 @@ public:
     std::future<result_type> res(task.get_future());
     work_queue.push(std::move(task));
     return res;
+  }
+
+  void run_pending_task() {
+    function_wrapper task;
+    if (work_queue.try_pop(task)) {
+      task();
+    } else {
+      std::this_thread::yield();
+    }
   }
 };
