@@ -3,6 +3,7 @@
 #include <type_traits>
 #include <future>
 #include <thread>
+#include "function_wrapper.h"
 
 class thread_pool {
   std::atomic_bool done;
