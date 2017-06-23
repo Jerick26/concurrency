@@ -1,4 +1,4 @@
-#include "thread_pool_waitable_tasks.h"
+#include "thread_pool_waitable.h"
 
 template<typename Iterator, typename T>
 T parallel_accumulate(Iterator first, Iterator last, T init) {
