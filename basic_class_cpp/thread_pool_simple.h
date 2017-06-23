@@ -36,7 +36,7 @@ private:
   }
 private:
   std::atomic_bool done;
-  thread_safe_queue<std::function<void()> > work_queue;
+  threadsafe_queue<std::function<void()> > work_queue;
   std::vector<std::thread> threads;
   join_threads joiner;
 };
